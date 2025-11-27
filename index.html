@@ -62,98 +62,6 @@
             --invert-logo: 1;
         }
 
-        /* Ocean Depth */
-        [data-theme="ocean"] {
-            --bg-primary: #0a0f1a;
-            --bg-secondary: #0f1629;
-            --bg-tertiary: #151d30;
-            --bg-card: #1a2438;
-            --text-primary: #f0f4ff;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-primary: #3b82f6;
-            --accent-secondary: #60a5fa;
-            --accent-glow: rgba(59, 130, 246, 0.15);
-            --accent-warm: #f59e0b;
-            --accent-blue: #3b82f6;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                            radial-gradient(ellipse at 80% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
-            --code-bg: #0d1320;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --invert-logo: 0;
-        }
-
-        /* Warm Amber */
-        [data-theme="amber"] {
-            --bg-primary: #0f0a07;
-            --bg-secondary: #1a1309;
-            --bg-tertiary: #221a0d;
-            --bg-card: #2a1f10;
-            --text-primary: #fef9f0;
-            --text-secondary: #c9b896;
-            --text-muted: #8b7355;
-            --accent-primary: #f59e0b;
-            --accent-secondary: #fbbf24;
-            --accent-glow: rgba(245, 158, 11, 0.15);
-            --accent-warm: #f59e0b;
-            --accent-blue: #3b82f6;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
-                            radial-gradient(ellipse at 80% 100%, rgba(234, 88, 12, 0.06) 0%, transparent 50%);
-            --code-bg: #120d06;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --invert-logo: 0;
-        }
-
-        /* Violet Research */
-        [data-theme="violet"] {
-            --bg-primary: #0a0a12;
-            --bg-secondary: #12121f;
-            --bg-tertiary: #1a1a2e;
-            --bg-card: #21213a;
-            --text-primary: #f5f5ff;
-            --text-secondary: #a5a5c0;
-            --text-muted: #6b6b8a;
-            --accent-primary: #8b5cf6;
-            --accent-secondary: #a78bfa;
-            --accent-glow: rgba(139, 92, 246, 0.15);
-            --accent-warm: #f59e0b;
-            --accent-blue: #3b82f6;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-                            radial-gradient(ellipse at 80% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
-            --code-bg: #0d0d15;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --invert-logo: 0;
-        }
-
-        /* Cyan Circuit */
-        [data-theme="cyan"] {
-            --bg-primary: #050a0a;
-            --bg-secondary: #0a1414;
-            --bg-tertiary: #0f1c1c;
-            --bg-card: #142424;
-            --text-primary: #f0ffff;
-            --text-secondary: #88b0b0;
-            --text-muted: #5a8080;
-            --accent-primary: #06b6d4;
-            --accent-secondary: #22d3ee;
-            --accent-glow: rgba(6, 182, 212, 0.15);
-            --accent-warm: #f59e0b;
-            --accent-blue: #3b82f6;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(255, 255, 255, 0.12);
-            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-                            radial-gradient(ellipse at 80% 100%, rgba(8, 145, 178, 0.08) 0%, transparent 50%);
-            --code-bg: #060d0d;
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --invert-logo: 0;
-        }
-
         /* Theme Switcher Styles */
         .theme-switcher {
             position: fixed;
@@ -161,102 +69,42 @@
             right: 1rem;
             z-index: 1001;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem;
+            padding: 0.5rem;
             background: var(--bg-secondary);
             border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px var(--shadow-color);
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
+            border-radius: 100px;
+            box-shadow: 0 4px 16px var(--shadow-color);
         }
 
-        .theme-switcher:hover {
-            opacity: 1;
-        }
-
-        .theme-switcher-label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
-
-        .theme-options {
-            display: flex;
-            gap: 0.4rem;
-            flex-wrap: wrap;
-            max-width: 140px;
-        }
-
-        .theme-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            border: 2px solid transparent;
+        .theme-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: var(--text-muted);
         }
 
-        .theme-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .theme-btn.active {
-            border-color: var(--text-primary);
-            box-shadow: 0 0 0 2px var(--bg-primary);
-        }
-
-        .theme-btn::after {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0.35rem 0.5rem;
-            background: var(--bg-card);
+        .theme-toggle:hover {
+            background: var(--bg-tertiary);
             color: var(--text-primary);
-            font-size: 0.65rem;
-            white-space: nowrap;
-            border-radius: 4px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-            margin-bottom: 4px;
         }
 
-        .theme-btn:hover::after {
-            opacity: 1;
+        .theme-toggle.active {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
         }
 
-        /* Theme button colors - showing bg + accent */
-        .theme-btn[data-theme="default"] {
-            background: linear-gradient(135deg, #0a0a0b 50%, #10b981 50%);
-        }
-
-        .theme-btn[data-theme="light-green"] {
-            background: linear-gradient(135deg, #ffffff 50%, #059669 50%);
-        }
-
-        .theme-btn[data-theme="ocean"] {
-            background: linear-gradient(135deg, #0a0f1a 50%, #3b82f6 50%);
-        }
-
-        .theme-btn[data-theme="amber"] {
-            background: linear-gradient(135deg, #0f0a07 50%, #f59e0b 50%);
-        }
-
-        .theme-btn[data-theme="violet"] {
-            background: linear-gradient(135deg, #0a0a12 50%, #8b5cf6 50%);
-        }
-
-        .theme-btn[data-theme="cyan"] {
-            background: linear-gradient(135deg, #050a0a 50%, #06b6d4 50%);
+        .theme-toggle svg {
+            width: 16px;
+            height: 16px;
         }
 
         /* Smooth theme transition */
@@ -345,7 +193,7 @@
 
         section {
             padding: 6rem 4rem;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             position: relative;
         }
@@ -418,6 +266,13 @@
         .author-name {
             font-weight: 600;
             font-size: 0.95rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a.author-name:hover {
+            color: var(--accent-primary);
         }
 
         .author-affiliation {
@@ -557,8 +412,14 @@
         .demo-section {
             background: var(--bg-secondary);
             padding: 6rem 4rem;
-            margin: 0 -4rem;
             position: relative;
+        }
+
+        .demo-section > .section-header,
+        .demo-section > .demo-grid {
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .demo-section::before {
@@ -575,7 +436,6 @@
             display: flex;
             flex-direction: column;
             gap: 5rem;
-            margin-top: 3rem;
         }
 
         .demo-block {
@@ -618,6 +478,11 @@
         .demo-videos.two-col {
             grid-template-columns: repeat(2, 1fr);
             max-width: 800px;
+        }
+
+        .demo-videos.two-col.centered {
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .demo-video-card {
@@ -717,53 +582,13 @@
             font-weight: 500;
         }
 
-        /* Comparison Indicator */
-        .comparison-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding: 0.75rem 1.5rem;
-            background: var(--bg-tertiary);
-            border-radius: 100px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .comparison-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .comparison-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .comparison-dot.baseline {
-            background: var(--text-muted);
-        }
-
-        .comparison-dot.lora {
-            background: var(--accent-warm);
-        }
-
-        .comparison-dot.ours {
-            background: var(--accent-primary);
-        }
+        /* Comparison section spacing */
 
         /* Approach Section */
         .approach-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
         }
 
         .approach-figure {
@@ -771,12 +596,19 @@
             overflow: hidden;
             background: var(--bg-secondary);
             border: 1px solid var(--border-subtle);
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .approach-figure img {
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        .approach-content {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .approach-content h3 {
@@ -840,26 +672,76 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-subtle);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
         }
 
         .result-card:hover {
-            border-color: var(--border-hover);
+            border-color: var(--accent-primary);
             transform: translateY(-4px);
+            box-shadow: 0 12px 32px var(--shadow-color);
+        }
+
+        .result-card.expanded {
+            grid-column: 1 / -1;
+            cursor: default;
         }
 
         .result-image {
             aspect-ratio: 16/10;
             background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             color: var(--text-muted);
             font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card.expanded .result-image {
+            aspect-ratio: auto;
+            min-height: 400px;
+        }
+
+        .result-placeholder-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .result-expand-hint {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .result-expand-hint svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .result-card:hover .result-expand-hint {
+            opacity: 1;
+        }
+
+        .result-card.expanded .result-expand-hint {
+            display: none;
         }
 
         .result-content {
             padding: 1.5rem;
+        }
+
+        .result-card.expanded .result-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .result-title {
@@ -872,11 +754,53 @@
             color: var(--text-muted);
         }
 
+        .result-card.expanded .result-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .result-close {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .result-card.expanded .result-close {
+            display: flex;
+        }
+
+        .result-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .result-close svg {
+            width: 18px;
+            height: 18px;
+        }
+
         /* Citation Section */
         .citation-section {
             background: var(--bg-secondary);
-            padding: 4rem;
-            margin: 0 -4rem;
+            padding: 6rem 4rem;
+        }
+
+        .citation-section > .section-header,
+        .citation-section > .citation-box {
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .citation-box {
@@ -959,15 +883,11 @@
             }
 
             .demo-section {
-                margin: 0 -2rem;
+                padding: 4rem 2rem;
             }
 
             .citation-section {
-                margin: 0 -2rem;
-            }
-
-            .approach-grid {
-                grid-template-columns: 1fr;
+                padding: 4rem 2rem;
             }
 
             .results-grid {
@@ -1084,17 +1004,26 @@
     </style>
 </head>
 <body>
-    <!-- Theme Switcher -->
+    <!-- Theme Toggle -->
     <div class="theme-switcher">
-        <span class="theme-switcher-label">Theme</span>
-        <div class="theme-options">
-            <button class="theme-btn active" data-theme="default" data-tooltip="Emerald Night" onclick="setTheme('default')"></button>
-            <button class="theme-btn" data-theme="light-green" data-tooltip="Light Academic" onclick="setTheme('light-green')"></button>
-            <button class="theme-btn" data-theme="ocean" data-tooltip="Ocean Depth" onclick="setTheme('ocean')"></button>
-            <button class="theme-btn" data-theme="amber" data-tooltip="Warm Amber" onclick="setTheme('amber')"></button>
-            <button class="theme-btn" data-theme="violet" data-tooltip="Violet Research" onclick="setTheme('violet')"></button>
-            <button class="theme-btn" data-theme="cyan" data-tooltip="Cyan Circuit" onclick="setTheme('cyan')"></button>
-        </div>
+        <button class="theme-toggle active" id="dark-toggle" onclick="setTheme('default')" title="Dark Mode">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+        <button class="theme-toggle" id="light-toggle" onclick="setTheme('light-green')" title="Light Mode">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
     </div>
 
     <!-- Mobile Navigation -->
@@ -1147,43 +1076,43 @@
 
             <div class="authors">
                 <div class="author">
-                    <span class="author-name">Chancharik Mitra</span>
+                    <a href="#" class="author-name">Chancharik Mitra</a>
                     <span class="author-affiliation">Carnegie Mellon University</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Yusen Luo</span>
+                    <a href="#" class="author-name">Yusen Luo</a>
                     <span class="author-affiliation">University of Southern California</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Raj Saravanan</span>
+                    <a href="#" class="author-name">Raj Saravanan</a>
                     <span class="author-affiliation">UC Berkeley</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Dantong Niu</span>
+                    <a href="#" class="author-name">Dantong Niu</a>
                     <span class="author-affiliation">UC Berkeley</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Anirudh Pai</span>
+                    <a href="#" class="author-name">Anirudh Pai</a>
                     <span class="author-affiliation">UC Berkeley</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Jesse Thomason</span>
+                    <a href="#" class="author-name">Jesse Thomason</a>
                     <span class="author-affiliation">University of Southern California</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Trevor Darrell</span>
+                    <a href="#" class="author-name">Trevor Darrell</a>
                     <span class="author-affiliation">UC Berkeley</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Abrar Anwar</span>
+                    <a href="#" class="author-name">Abrar Anwar</a>
                     <span class="author-affiliation">University of Southern California</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Deva Ramanan</span>
+                    <a href="#" class="author-name">Deva Ramanan</a>
                     <span class="author-affiliation">Carnegie Mellon University</span>
                 </div>
                 <div class="author">
-                    <span class="author-name">Roei Herzig</span>
+                    <a href="#" class="author-name">Roei Herzig</a>
                     <span class="author-affiliation">UC Berkeley, MIT-IBM Watson AI Lab</span>
                 </div>
             </div>
@@ -1203,14 +1132,6 @@
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
                     </svg>
                     Code
-                </a>
-                <a href="#" class="btn btn-secondary">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
-                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-                    </svg>
-                    Dataset
                 </a>
             </div>
         </section>
@@ -1259,21 +1180,6 @@
             <div class="section-header">
                 <p class="section-label">Experiments</p>
                 <h2 class="section-title">Video Demonstrations</h2>
-            </div>
-
-            <div class="comparison-indicator">
-                <div class="comparison-item">
-                    <span class="comparison-dot baseline"></span>
-                    <span>Zero-Shot</span>
-                </div>
-                <div class="comparison-item">
-                    <span class="comparison-dot lora"></span>
-                    <span>LoRA</span>
-                </div>
-                <div class="comparison-item">
-                    <span class="comparison-dot ours"></span>
-                    <span>Ours</span>
-                </div>
             </div>
 
             <div class="demo-grid">
@@ -1340,7 +1246,7 @@
                         <span class="demo-block-number">2</span>
                         <h3 class="demo-block-title">Performance on Unseen Task</h3>
                     </div>
-                    <div class="demo-videos two-col">
+                    <div class="demo-videos two-col centered">
                         <div class="demo-video-card">
                             <div class="demo-video-wrapper">
                                 <div class="video-placeholder-text">
@@ -1377,14 +1283,14 @@
                     </div>
                 </div>
 
-                <!-- Demo 3: Robustness to Environmental Distractors -->
+                <!-- Demo 3: Robustness to Environmental Variations -->
                 <div class="demo-block fade-in">
                     <div class="demo-block-header">
                         <span class="demo-block-number">3</span>
-                        <h3 class="demo-block-title">Robustness to Environmental Distractors</h3>
+                        <h3 class="demo-block-title">Robustness to Environmental Variations</h3>
                     </div>
                     <div class="demo-videos">
-                        <div class="demo-video-card">
+                        <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
                                 <div class="video-placeholder-text">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
@@ -1394,22 +1300,8 @@
                                 </div>
                             </div>
                             <div class="demo-video-label">
-                                <p class="demo-video-label-text">Zero-Shot</p>
-                                <p class="demo-video-label-sub">With distractors</p>
-                            </div>
-                        </div>
-                        <div class="demo-video-card">
-                            <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
-                            </div>
-                            <div class="demo-video-label">
-                                <p class="demo-video-label-text">LoRA</p>
-                                <p class="demo-video-label-sub">With distractors</p>
+                                <p class="demo-video-label-text">Lighting Variation</p>
+                                <p class="demo-video-label-sub">Robotic Steering</p>
                             </div>
                         </div>
                         <div class="demo-video-card featured">
@@ -1422,14 +1314,28 @@
                                 </div>
                             </div>
                             <div class="demo-video-label">
-                                <p class="demo-video-label-text">Robotic Steering</p>
-                                <p class="demo-video-label-sub">With distractors</p>
+                                <p class="demo-video-label-text">Form Variation</p>
+                                <p class="demo-video-label-sub">Robotic Steering</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card featured">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Distractor Objects</p>
+                                <p class="demo-video-label-sub">Robotic Steering</p>
                             </div>
                         </div>
                     </div>
                     <div class="demo-caption">
                         <p class="demo-caption-text">
-                            <em>Environmental robustness:</em> When tested with visual distractors (additional objects, changed lighting, background variations), Robotic Steering demonstrates significantly more robust performance. The selective attention head finetuning preserves the model's ability to focus on task-relevant features.
+                            <em>Environmental robustness:</em> Robotic Steering demonstrates robust performance across environmental variations including lighting changes, object form differences, and distractor objects. The selective attention head finetuning preserves the model's ability to focus on task-relevant features.
                         </p>
                     </div>
                 </div>
@@ -1479,30 +1385,57 @@
         <section id="results">
             <div class="section-header">
                 <p class="section-label">Evaluation</p>
-                <h2 class="section-title">Quantitative Results</h2>
+                <h2 class="section-title">Results</h2>
             </div>
             <div class="results-grid fade-in">
-                <div class="result-card">
+                <div class="result-card" onclick="toggleResult(this)">
                     <div class="result-image">
-                        Result Figure 1 Placeholder
+                        <span class="result-placeholder-text">Result Figure 1</span>
+                        <div class="result-expand-hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 3 21 3 21 9"/>
+                                <polyline points="9 21 3 21 3 15"/>
+                                <line x1="21" y1="3" x2="14" y2="10"/>
+                                <line x1="3" y1="21" x2="10" y2="14"/>
+                            </svg>
+                            Click to expand
+                        </div>
                     </div>
                     <div class="result-content">
                         <h4 class="result-title">Task Performance Comparison</h4>
                         <p class="result-description">Success rates across manipulation tasks comparing Zero-Shot, LoRA, and Robotic Steering approaches.</p>
                     </div>
                 </div>
-                <div class="result-card">
+                <div class="result-card" onclick="toggleResult(this)">
                     <div class="result-image">
-                        Result Figure 2 Placeholder
+                        <span class="result-placeholder-text">Result Figure 2</span>
+                        <div class="result-expand-hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 3 21 3 21 9"/>
+                                <polyline points="9 21 3 21 3 15"/>
+                                <line x1="21" y1="3" x2="14" y2="10"/>
+                                <line x1="3" y1="21" x2="10" y2="14"/>
+                            </svg>
+                            Click to expand
+                        </div>
                     </div>
                     <div class="result-content">
                         <h4 class="result-title">In-Domain Preservation</h4>
                         <p class="result-description">Analysis of how well each method preserves performance on original pretraining tasks after adaptation.</p>
                     </div>
                 </div>
-                <div class="result-card">
+                <div class="result-card" onclick="toggleResult(this)">
                     <div class="result-image">
-                        Result Figure 3 Placeholder
+                        <span class="result-placeholder-text">Result Figure 3</span>
+                        <div class="result-expand-hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 3 21 3 21 9"/>
+                                <polyline points="9 21 3 21 3 15"/>
+                                <line x1="21" y1="3" x2="14" y2="10"/>
+                                <line x1="3" y1="21" x2="10" y2="14"/>
+                            </svg>
+                            Click to expand
+                        </div>
                     </div>
                     <div class="result-content">
                         <h4 class="result-title">Head Selection Analysis</h4>
@@ -1538,21 +1471,42 @@
     </main>
 
     <script>
+        // Result card expand/collapse
+        function toggleResult(card) {
+            const isExpanded = card.classList.contains('expanded');
+            
+            // Close all other expanded cards first
+            document.querySelectorAll('.result-card.expanded').forEach(c => {
+                c.classList.remove('expanded');
+            });
+            
+            // Toggle this card
+            if (!isExpanded) {
+                card.classList.add('expanded');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Close expanded card when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.result-card')) {
+                document.querySelectorAll('.result-card.expanded').forEach(c => {
+                    c.classList.remove('expanded');
+                });
+            }
+        });
+
         // Theme Switcher
         function setTheme(theme) {
             if (theme === 'default') {
                 document.documentElement.removeAttribute('data-theme');
+                document.getElementById('dark-toggle').classList.add('active');
+                document.getElementById('light-toggle').classList.remove('active');
             } else {
                 document.documentElement.setAttribute('data-theme', theme);
+                document.getElementById('light-toggle').classList.add('active');
+                document.getElementById('dark-toggle').classList.remove('active');
             }
-            
-            // Update active button
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.theme === theme) {
-                    btn.classList.add('active');
-                }
-            });
             
             // Save preference
             localStorage.setItem('robotic-steering-theme', theme);
