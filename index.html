@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Steering | Mechanistic Finetuning of VLA Models</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="media/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="media/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="media/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="media/favicon.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Theme Definitions */
+        :root {
+            /* Default: Emerald Night */
+            --bg-primary: #0a0a0b;
+            --bg-secondary: #111113;
+            --bg-tertiary: #18181b;
+            --bg-card: #1c1c1f;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-primary: #10b981;
+            --accent-secondary: #34d399;
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --accent-warm: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+            --code-bg: #0d0d0e;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --invert-logo: 0;
+        }
+
+        /* Light Academic Green */
+        [data-theme="light-green"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8faf9;
+            --bg-tertiary: #f0f5f3;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b7280;
+            --accent-primary: #059669;
+            --accent-secondary: #10b981;
+            --accent-glow: rgba(5, 150, 105, 0.1);
+            --accent-warm: #d97706;
+            --accent-blue: #2563eb;
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.15);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(5, 150, 105, 0.06) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(37, 99, 235, 0.04) 0%, transparent 50%);
+            --code-bg: #f5f5f5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --invert-logo: 1;
+        }
+
+        /* Ocean Depth */
+        [data-theme="ocean"] {
+            --bg-primary: #0a0f1a;
+            --bg-secondary: #0f1629;
+            --bg-tertiary: #151d30;
+            --bg-card: #1a2438;
+            --text-primary: #f0f4ff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --accent-warm: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+            --code-bg: #0d1320;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --invert-logo: 0;
+        }
+
+        /* Warm Amber */
+        [data-theme="amber"] {
+            --bg-primary: #0f0a07;
+            --bg-secondary: #1a1309;
+            --bg-tertiary: #221a0d;
+            --bg-card: #2a1f10;
+            --text-primary: #fef9f0;
+            --text-secondary: #c9b896;
+            --text-muted: #8b7355;
+            --accent-primary: #f59e0b;
+            --accent-secondary: #fbbf24;
+            --accent-glow: rgba(245, 158, 11, 0.15);
+            --accent-warm: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(234, 88, 12, 0.06) 0%, transparent 50%);
+            --code-bg: #120d06;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --invert-logo: 0;
+        }
+
+        /* Violet Research */
+        [data-theme="violet"] {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121f;
+            --bg-tertiary: #1a1a2e;
+            --bg-card: #21213a;
+            --text-primary: #f5f5ff;
+            --text-secondary: #a5a5c0;
+            --text-muted: #6b6b8a;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #a78bfa;
+            --accent-glow: rgba(139, 92, 246, 0.15);
+            --accent-warm: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+            --code-bg: #0d0d15;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --invert-logo: 0;
+        }
+
+        /* Cyan Circuit */
+        [data-theme="cyan"] {
+            --bg-primary: #050a0a;
+            --bg-secondary: #0a1414;
+            --bg-tertiary: #0f1c1c;
+            --bg-card: #142424;
+            --text-primary: #f0ffff;
+            --text-secondary: #88b0b0;
+            --text-muted: #5a8080;
+            --accent-primary: #06b6d4;
+            --accent-secondary: #22d3ee;
+            --accent-glow: rgba(6, 182, 212, 0.15);
+            --accent-warm: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --gradient-mesh: radial-gradient(ellipse at 20% 0%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                            radial-gradient(ellipse at 80% 100%, rgba(8, 145, 178, 0.08) 0%, transparent 50%);
+            --code-bg: #060d0d;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --invert-logo: 0;
+        }
+
+        /* Theme Switcher Styles */
+        .theme-switcher {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px var(--shadow-color);
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-switcher:hover {
+            opacity: 1;
+        }
+
+        .theme-switcher-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            max-width: 140px;
+        }
+
+        .theme-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.active {
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 2px var(--bg-primary);
+        }
+
+        .theme-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.35rem 0.5rem;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: 0.65rem;
+            white-space: nowrap;
+            border-radius: 4px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .theme-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Theme button colors - showing bg + accent */
+        .theme-btn[data-theme="default"] {
+            background: linear-gradient(135deg, #0a0a0b 50%, #10b981 50%);
+        }
+
+        .theme-btn[data-theme="light-green"] {
+            background: linear-gradient(135deg, #ffffff 50%, #059669 50%);
+        }
+
+        .theme-btn[data-theme="ocean"] {
+            background: linear-gradient(135deg, #0a0f1a 50%, #3b82f6 50%);
+        }
+
+        .theme-btn[data-theme="amber"] {
+            background: linear-gradient(135deg, #0f0a07 50%, #f59e0b 50%);
+        }
+
+        .theme-btn[data-theme="violet"] {
+            background: linear-gradient(135deg, #0a0a12 50%, #8b5cf6 50%);
+        }
+
+        .theme-btn[data-theme="cyan"] {
+            background: linear-gradient(135deg, #050a0a 50%, #06b6d4 50%);
+        }
+
+        /* Smooth theme transition */
+        body, .nav a, .btn, .demo-video-card, .result-card, .approach-step, .demo-caption {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Invert logo for light theme */
+        .approach-figure img {
+            filter: invert(var(--invert-logo));
+            transition: filter 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 200px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .nav a {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-left: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--accent-primary);
+            border-left-color: var(--accent-primary);
+            background: var(--accent-glow);
+        }
+
+        .nav-indicator {
+            position: absolute;
+            left: -2px;
+            width: 2px;
+            height: 24px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: 200px;
+            min-height: 100vh;
+        }
+
+        section {
+            padding: 6rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+            background: var(--gradient-mesh);
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+
+        .hero-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.1s forwards;
+        }
+
+        .hero-title .highlight {
+            color: var(--accent-primary);
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+        }
+
+        .authors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+        }
+
+        .author {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .author-affiliation {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--border-hover);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--accent-primary);
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 400;
+            line-height: 1.2;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            aspect-ratio: 16/9;
+            margin-bottom: 2rem;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        }
+
+        .video-placeholder-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .video-placeholder-text svg {
+            width: 48px;
+            height: 48px;
+            opacity: 0.5;
+        }
+
+        /* Abstract */
+        .abstract-content {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        .abstract-content strong {
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        /* Demo Section - THE STAR */
+        .demo-section {
+            background: var(--bg-secondary);
+            padding: 6rem 4rem;
+            margin: 0 -4rem;
+            position: relative;
+        }
+
+        .demo-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        }
+
+        .demo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 5rem;
+            margin-top: 3rem;
+        }
+
+        .demo-block {
+            position: relative;
+        }
+
+        .demo-block-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-block-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-block-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .demo-videos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .demo-videos.two-col {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 800px;
+        }
+
+        .demo-video-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .demo-video-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px var(--accent-primary);
+        }
+
+        .demo-video-card.featured {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .demo-video-card.featured::before {
+            content: 'OURS';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 10;
+            background: var(--accent-primary);
+            color: var(--bg-primary);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+        }
+
+        .demo-video-wrapper {
+            aspect-ratio: 4/3;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .demo-video-label {
+            padding: 1rem;
+            text-align: center;
+            background: var(--bg-card);
+        }
+
+        .demo-video-label-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .demo-video-label-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Floating Caption */
+        .demo-caption {
+            margin-top: 2rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-caption::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-glow), transparent);
+            pointer-events: none;
+        }
+
+        .demo-caption-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-caption-text em {
+            color: var(--accent-primary);
+            font-style: normal;
+            font-weight: 500;
+        }
+
+        /* Comparison Indicator */
+        .comparison-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 100px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .comparison-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .comparison-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .comparison-dot.baseline {
+            background: var(--text-muted);
+        }
+
+        .comparison-dot.lora {
+            background: var(--accent-warm);
+        }
+
+        .comparison-dot.ours {
+            background: var(--accent-primary);
+        }
+
+        /* Approach Section */
+        .approach-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .approach-figure {
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .approach-figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .approach-content h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .approach-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .approach-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .approach-step {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .approach-step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent-glow);
+            color: var(--accent-primary);
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .approach-step-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .approach-step-text strong {
+            color: var(--text-primary);
+        }
+
+        /* Results Section */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .result-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+
+        .result-image {
+            aspect-ratio: 16/10;
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .result-content {
+            padding: 1.5rem;
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Citation Section */
+        .citation-section {
+            background: var(--bg-secondary);
+            padding: 4rem;
+            margin: 0 -4rem;
+        }
+
+        .citation-box {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .citation-copy {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .citation-copy:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .nav-wrapper {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            section, .demo-section, .citation-section {
+                padding: 4rem 2rem;
+                margin: 0;
+            }
+
+            .demo-section {
+                margin: 0 -2rem;
+            }
+
+            .citation-section {
+                margin: 0 -2rem;
+            }
+
+            .approach-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-videos {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-videos.two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bg-card);
+        }
+
+        /* Video hover effect */
+        .demo-video-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Glow animation for featured cards */
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px var(--accent-glow);
+            }
+            50% {
+                box-shadow: 0 0 40px var(--accent-glow);
+            }
+        }
+
+        .demo-video-card.featured {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        /* Mobile nav */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 11, 0.95);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .mobile-nav-links a {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .mobile-nav-links a.active {
+            color: var(--accent-primary);
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-nav {
+                display: block;
+            }
+
+            .hero {
+                padding-top: 6rem;
+            }
+        }
+
+        /* Tooltip for captions */
+        .info-tooltip {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: help;
+        }
+
+        .info-tooltip svg {
+            width: 16px;
+            height: 16px;
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher">
+        <span class="theme-switcher-label">Theme</span>
+        <div class="theme-options">
+            <button class="theme-btn active" data-theme="default" data-tooltip="Emerald Night" onclick="setTheme('default')"></button>
+            <button class="theme-btn" data-theme="light-green" data-tooltip="Light Academic" onclick="setTheme('light-green')"></button>
+            <button class="theme-btn" data-theme="ocean" data-tooltip="Ocean Depth" onclick="setTheme('ocean')"></button>
+            <button class="theme-btn" data-theme="amber" data-tooltip="Warm Amber" onclick="setTheme('amber')"></button>
+            <button class="theme-btn" data-theme="violet" data-tooltip="Violet Research" onclick="setTheme('violet')"></button>
+            <button class="theme-btn" data-theme="cyan" data-tooltip="Cyan Circuit" onclick="setTheme('cyan')"></button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="#hero" class="active">Home</a>
+            <a href="#abstract">Abstract</a>
+            <a href="#demos">Demos</a>
+            <a href="#approach">Approach</a>
+            <a href="#results">Results</a>
+            <a href="#citation">Citation</a>
+        </div>
+    </nav>
+
+    <!-- Side Navigation -->
+    <div class="nav-wrapper">
+        <nav class="nav">
+            <a href="#hero" class="active">Home</a>
+            <a href="#abstract">Abstract</a>
+            <a href="#demos">Demos</a>
+            <a href="#approach">Approach</a>
+            <a href="#results">Results</a>
+            <a href="#citation">Citation</a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-icon">
+                <!-- Robot arm + steering wheel icon placeholder -->
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="25" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+                    <circle cx="50" cy="50" r="18" stroke="currentColor" stroke-width="2" fill="none" opacity="0.3"/>
+                    <line x1="50" y1="25" x2="50" y2="40" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                    <line x1="50" y1="60" x2="50" y2="75" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                    <line x1="25" y1="50" x2="40" y2="50" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                    <line x1="60" y1="50" x2="75" y2="50" stroke="currentColor" stroke-width="2" opacity="0.3"/>
+                    <path d="M10 55 L10 40 L20 30 L35 30" stroke="#10b981" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="35" cy="30" r="4" fill="#10b981"/>
+                    <rect x="5" y="53" width="10" height="8" fill="#10b981" rx="2"/>
+                </svg>
+            </div>
+            <h1 class="hero-title">
+                Mechanistic Finetuning of Vision-Language-Action Models<br>
+                <span class="highlight">via Few-Shot Demonstrations</span>
+            </h1>
+            <p class="hero-subtitle">Robotic Steering</p>
+
+            <div class="authors">
+                <div class="author">
+                    <span class="author-name">Chancharik Mitra</span>
+                    <span class="author-affiliation">Carnegie Mellon University</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Yusen Luo</span>
+                    <span class="author-affiliation">University of Southern California</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Raj Saravanan</span>
+                    <span class="author-affiliation">UC Berkeley</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Dantong Niu</span>
+                    <span class="author-affiliation">UC Berkeley</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Anirudh Pai</span>
+                    <span class="author-affiliation">UC Berkeley</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Jesse Thomason</span>
+                    <span class="author-affiliation">University of Southern California</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Trevor Darrell</span>
+                    <span class="author-affiliation">UC Berkeley</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Abrar Anwar</span>
+                    <span class="author-affiliation">University of Southern California</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Deva Ramanan</span>
+                    <span class="author-affiliation">Carnegie Mellon University</span>
+                </div>
+                <div class="author">
+                    <span class="author-name">Roei Herzig</span>
+                    <span class="author-affiliation">UC Berkeley, MIT-IBM Watson AI Lab</span>
+                </div>
+            </div>
+
+            <div class="hero-links">
+                <a href="#" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Paper
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                    Code
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                    </svg>
+                    Dataset
+                </a>
+            </div>
+        </section>
+
+        <!-- Intro Video Section -->
+        <section id="video">
+            <div class="section-header">
+                <p class="section-label">Overview</p>
+                <h2 class="section-title">Introduction Video</h2>
+            </div>
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <div class="video-placeholder-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        Introduction Video Placeholder
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Abstract Section -->
+        <section id="abstract">
+            <div class="section-header">
+                <p class="section-label">Abstract</p>
+                <h2 class="section-title">Summary</h2>
+            </div>
+            <div class="abstract-content fade-in">
+                <p>
+                    Vision-Language Action (VLAs) models promise to extend the remarkable success of vision-language models (VLMs) to robotics. Yet, unlike VLMs in the vision-language domain, VLAs for robotics require finetuning to contend with varying physical factors like robot embodiment, environment characteristics, and spatial relationships of each task. Existing fine-tuning methods lack specificity, adapting the same set of parameters regardless of a task's visual, linguistic, and physical characteristics.
+                </p>
+                <br>
+                <p>
+                    Inspired by functional specificity in neuroscience, we hypothesize that it is more effective to finetune sparse model representations specific to a given task. In this work, we introduce <strong>Robotic Steering</strong>, a finetuning approach grounded in mechanistic interpretability that leverages few-shot demonstrations to identify and selectively finetune task-specific attention heads aligned with the physical, visual, and linguistic requirements of robotic tasks.
+                </p>
+                <br>
+                <p>
+                    Through comprehensive on-robot evaluations with a Franka Emika robot arm, we demonstrate that <strong>Robotic Steering</strong> outperforms LoRA while achieving superior robustness under task variation, reduced computational cost, and enhanced interpretability for adapting VLAs to diverse robotic tasks.
+                </p>
+            </div>
+        </section>
+
+        <!-- Demo Section - Main Focus -->
+        <section class="demo-section" id="demos">
+            <div class="section-header">
+                <p class="section-label">Experiments</p>
+                <h2 class="section-title">Video Demonstrations</h2>
+            </div>
+
+            <div class="comparison-indicator">
+                <div class="comparison-item">
+                    <span class="comparison-dot baseline"></span>
+                    <span>Zero-Shot</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="comparison-dot lora"></span>
+                    <span>LoRA</span>
+                </div>
+                <div class="comparison-item">
+                    <span class="comparison-dot ours"></span>
+                    <span>Ours</span>
+                </div>
+            </div>
+
+            <div class="demo-grid">
+                <!-- Demo 1: Few-Shot Adaptation Performance -->
+                <div class="demo-block fade-in">
+                    <div class="demo-block-header">
+                        <span class="demo-block-number">1</span>
+                        <h3 class="demo-block-title">Few-Shot Adaptation Performance</h3>
+                    </div>
+                    <div class="demo-videos">
+                        <div class="demo-video-card">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Zero-Shot</p>
+                                <p class="demo-video-label-sub">No finetuning</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">LoRA</p>
+                                <p class="demo-video-label-sub">Standard adaptation</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card featured">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Robotic Steering</p>
+                                <p class="demo-video-label-sub">Task-specific heads</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <p class="demo-caption-text">
+                            <em>Few-shot adaptation comparison:</em> Given only a handful of demonstrations, Robotic Steering identifies and finetunes task-relevant attention heads, achieving superior performance compared to zero-shot inference and standard LoRA adaptation. Note the improved precision in object manipulation and grasp stability.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Demo 2: Performance on Unseen Task -->
+                <div class="demo-block fade-in">
+                    <div class="demo-block-header">
+                        <span class="demo-block-number">2</span>
+                        <h3 class="demo-block-title">Performance on Unseen Task</h3>
+                    </div>
+                    <div class="demo-videos two-col">
+                        <div class="demo-video-card">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">LoRA</p>
+                                <p class="demo-video-label-sub">On unseen task</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card featured">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Robotic Steering</p>
+                                <p class="demo-video-label-sub">On unseen task</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <p class="demo-caption-text">
+                            <em>Transfer to unseen tasks:</em> By preserving general pretraining knowledge through selective finetuning, Robotic Steering maintains strong performance on novel tasks not seen during adaptation. Standard LoRA suffers from catastrophic forgetting, degrading performance on tasks outside the finetuning distribution.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Demo 3: Robustness to Environmental Distractors -->
+                <div class="demo-block fade-in">
+                    <div class="demo-block-header">
+                        <span class="demo-block-number">3</span>
+                        <h3 class="demo-block-title">Robustness to Environmental Distractors</h3>
+                    </div>
+                    <div class="demo-videos">
+                        <div class="demo-video-card">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Zero-Shot</p>
+                                <p class="demo-video-label-sub">With distractors</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">LoRA</p>
+                                <p class="demo-video-label-sub">With distractors</p>
+                            </div>
+                        </div>
+                        <div class="demo-video-card featured">
+                            <div class="demo-video-wrapper">
+                                <div class="video-placeholder-text">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
+                                        <polygon points="5 3 19 12 5 21 5 3"/>
+                                    </svg>
+                                    Video
+                                </div>
+                            </div>
+                            <div class="demo-video-label">
+                                <p class="demo-video-label-text">Robotic Steering</p>
+                                <p class="demo-video-label-sub">With distractors</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-caption">
+                        <p class="demo-caption-text">
+                            <em>Environmental robustness:</em> When tested with visual distractors (additional objects, changed lighting, background variations), Robotic Steering demonstrates significantly more robust performance. The selective attention head finetuning preserves the model's ability to focus on task-relevant features.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Approach Section -->
+        <section id="approach">
+            <div class="section-header">
+                <p class="section-label">Method</p>
+                <h2 class="section-title">Our Approach</h2>
+            </div>
+            <div class="approach-grid fade-in">
+                <div class="approach-figure">
+                    <img src="media/approach-figure.png" alt="Robotic Steering approach diagram showing task specification and finetuning comparison">
+                </div>
+                <div class="approach-content">
+                    <h3>Robotic Steering</h3>
+                    <p>
+                        Our method leverages few-shot demonstrations to identify task-specific attention heads, then selectively finetunes only those heads rather than broadly updating all parameters.
+                    </p>
+                    <div class="approach-steps">
+                        <div class="approach-step">
+                            <span class="approach-step-num">1</span>
+                            <p class="approach-step-text">
+                                <strong>Head Identification:</strong> Use k-NN regression on few-shot demonstrations to identify attention heads most aligned with task-specific physical, visual, and linguistic requirements.
+                            </p>
+                        </div>
+                        <div class="approach-step">
+                            <span class="approach-step-num">2</span>
+                            <p class="approach-step-text">
+                                <strong>Selective LoRA:</strong> Apply low-rank adaptation only to the identified task-specific heads, preserving general pretraining knowledge in other model components.
+                            </p>
+                        </div>
+                        <div class="approach-step">
+                            <span class="approach-step-num">3</span>
+                            <p class="approach-step-text">
+                                <strong>Standard Inference:</strong> Deploy the adapted model with enhanced task performance while maintaining robustness on unseen variations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <div class="section-header">
+                <p class="section-label">Evaluation</p>
+                <h2 class="section-title">Quantitative Results</h2>
+            </div>
+            <div class="results-grid fade-in">
+                <div class="result-card">
+                    <div class="result-image">
+                        Result Figure 1 Placeholder
+                    </div>
+                    <div class="result-content">
+                        <h4 class="result-title">Task Performance Comparison</h4>
+                        <p class="result-description">Success rates across manipulation tasks comparing Zero-Shot, LoRA, and Robotic Steering approaches.</p>
+                    </div>
+                </div>
+                <div class="result-card">
+                    <div class="result-image">
+                        Result Figure 2 Placeholder
+                    </div>
+                    <div class="result-content">
+                        <h4 class="result-title">In-Domain Preservation</h4>
+                        <p class="result-description">Analysis of how well each method preserves performance on original pretraining tasks after adaptation.</p>
+                    </div>
+                </div>
+                <div class="result-card">
+                    <div class="result-image">
+                        Result Figure 3 Placeholder
+                    </div>
+                    <div class="result-content">
+                        <h4 class="result-title">Head Selection Analysis</h4>
+                        <p class="result-description">Visualization of task-specific attention head distributions across different manipulation tasks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section class="citation-section" id="citation">
+            <div class="section-header">
+                <p class="section-label">Reference</p>
+                <h2 class="section-title">Citation</h2>
+            </div>
+            <div class="citation-box">
+                <button class="citation-copy" onclick="copyBibtex()">Copy BibTeX</button>
+<pre>@article{roboticsteering2025,
+  title={Mechanistic Finetuning of Vision-Language-Action Models 
+         via Few-Shot Demonstrations},
+  author={Author, First and Author, Second and Author, Third 
+          and Author, Fourth},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2025}
+}</pre>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Robotic Steering © 2025</p>
+        </footer>
+    </main>
+
+    <script>
+        // Theme Switcher
+        function setTheme(theme) {
+            if (theme === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.theme === theme) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('robotic-steering-theme', theme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('robotic-steering-theme');
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+
+        // Navigation active state
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav a, .mobile-nav-links a');
+
+        function updateActiveNav() {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Fade-in on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+
+        function checkFade() {
+            fadeElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top < windowHeight * 0.85) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        // Copy BibTeX
+        function copyBibtex() {
+            const bibtex = document.querySelector('.citation-box pre').textContent;
+            navigator.clipboard.writeText(bibtex).then(() => {
+                const btn = document.querySelector('.citation-copy');
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = 'Copy BibTeX';
+                }, 2000);
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateActiveNav();
+            checkFade();
+        });
+
+        // Initial check
+        updateActiveNav();
+        checkFade();
+
+        // Smooth scroll for nav links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
