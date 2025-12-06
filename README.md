@@ -2,7 +2,7 @@
 
 This repository contains the project website for **"Mechanistic Finetuning of Vision-Language-Action Models via Few-Shot Demonstrations"**.
 
-🌐 **Live site:** [https://yourusername.github.io/robotic-steering/](https://yourusername.github.io/robotic-steering/)
+🌐 **Live site:** [https://yourusername.github.io/robosteering/](https://yourusername.github.io/robotic-steering/)
 
 ---
 
