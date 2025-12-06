@@ -24,12 +24,12 @@ robotic-steering/
     ├── intro-video.mp4     # Introduction video - ADD THIS
     ├── demo1-zeroshot.mp4  # Demo 1: Zero-shot - ADD THIS
     ├── demo1-lora.mp4      # Demo 1: LoRA - ADD THIS
-    ├── demo1-ours.mp4      # Demo 1: Ours - ADD THIS
-    ├── demo2-lora.mp4      # Demo 2: LoRA - ADD THIS
-    ├── demo2-ours.mp4      # Demo 2: Ours - ADD THIS
-    ├── demo3-zeroshot.mp4  # Demo 3: Zero-shot - ADD THIS
-    ├── demo3-lora.mp4      # Demo 3: LoRA - ADD THIS
-    └── demo3-ours.mp4      # Demo 3: Ours - ADD THIS
+    ├── demo1-ours.mp4      # Demo 1: Robotic Steering - ADD THIS
+    ├── demo2-lora.mp4      # Demo 2: LoRA on unseen task - ADD THIS
+    ├── demo2-ours.mp4      # Demo 2: Robotic Steering on unseen task - ADD THIS
+    ├── demo3-lighting.mp4  # Demo 3: Lighting variation - ADD THIS
+    ├── demo3-form.mp4      # Demo 3: Form variation - ADD THIS
+    └── demo3-distractor.mp4 # Demo 3: Distractor objects - ADD THIS
 ```
 
 ---
@@ -61,23 +61,26 @@ In `index.html`, find the `<div class="authors">` section and update:
 
 ### Add Videos
 
-Replace the video placeholders with actual `<video>` tags. Find sections like:
+The HTML already has `<video>` tags set up with the correct filenames. Simply add your video files to the `media/` folder with these exact names:
 
-```html
-<div class="demo-video-wrapper">
-    <div class="video-placeholder-text">...</div>
-</div>
-```
+**Demo 1 (Few-Shot Adaptation):**
+- `demo1-zeroshot.mp4`
+- `demo1-lora.mp4`
+- `demo1-ours.mp4`
 
-Replace with:
+**Demo 2 (Unseen Task):**
+- `demo2-lora.mp4`
+- `demo2-ours.mp4`
 
-```html
-<div class="demo-video-wrapper">
-    <video autoplay loop muted playsinline>
-        <source src="media/demo1-ours.mp4" type="video/mp4">
-    </video>
-</div>
-```
+**Demo 3 (Environmental Robustness):**
+- `demo3-lighting.mp4`
+- `demo3-form.mp4`
+- `demo3-distractor.mp4`
+
+**Introduction:**
+- `intro-video.mp4`
+
+Videos will autoplay, loop, and be muted by default. The intro video has controls enabled.
 
 ### Add Result Figures
 
@@ -124,24 +127,14 @@ Find the BibTeX block and update with your actual citation:
 
 ## 🎨 Theme Customization
 
-The website includes 6 built-in color themes accessible via the theme switcher (top-right corner):
+The website includes a light/dark mode toggle (top-right corner):
 
 | Theme | Background | Accent |
 |-------|------------|--------|
 | Emerald Night (default) | `#0a0a0b` | `#10b981` |
 | Light Academic | `#ffffff` | `#059669` |
-| Ocean Depth | `#0a0f1a` | `#3b82f6` |
-| Warm Amber | `#0f0a07` | `#f59e0b` |
-| Violet Research | `#0a0a12` | `#8b5cf6` |
-| Cyan Circuit | `#050a0a` | `#06b6d4` |
 
-To set a default theme, add this to the `<html>` tag:
-
-```html
-<html lang="en" data-theme="light-green">
-```
-
-To remove the theme switcher for production, delete the `<div class="theme-switcher">` block and its associated CSS/JS.
+The dark theme is the default. User preference is saved to localStorage.
 
 ---
 
@@ -150,11 +143,13 @@ To remove the theme switcher for production, delete the `<div class="theme-switc
 Before publishing, ensure you have:
 
 - [ ] Favicon PNGs (16x16, 32x32, 180x180)
-- [ ] Introduction video
-- [ ] 8 demo videos (3 + 2 + 3 for each comparison section)
-- [ ] 3 result figures
+- [ ] Introduction video (`intro-video.mp4`)
+- [ ] Demo 1 videos: `demo1-zeroshot.mp4`, `demo1-lora.mp4`, `demo1-ours.mp4`
+- [ ] Demo 2 videos: `demo2-lora.mp4`, `demo2-ours.mp4`
+- [ ] Demo 3 videos: `demo3-lighting.mp4`, `demo3-form.mp4`, `demo3-distractor.mp4`
+- [ ] 3 result figures (`result-1.png`, `result-2.png`, `result-3.png`)
 - [ ] Updated author information
-- [ ] Updated paper/code/dataset links
+- [ ] Updated paper/code links
 - [ ] Updated BibTeX citation
 
 ---
