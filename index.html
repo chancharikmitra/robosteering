@@ -926,6 +926,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
+        }
+
+        .demo-video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Glow animation for featured cards */
@@ -1069,7 +1076,7 @@
                 </svg>
             </div>
             <h1 class="hero-title">
-                Mechanistic Finetuning of Vision-Language-Action Models
+                Mechanistic Finetuning of Vision-Language-Action Models<br>
                 <span class="highlight">via Few-Shot Demonstrations</span>
             </h1>
             <p class="hero-subtitle">Robotic Steering</p>
@@ -1143,14 +1150,10 @@
                 <h2 class="section-title">Introduction Video</h2>
             </div>
             <div class="video-container">
-                <div class="video-placeholder">
-                    <div class="video-placeholder-text">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                        Introduction Video Placeholder
-                    </div>
-                </div>
+                <video controls playsinline style="width:100%; height:100%;">
+                    <source src="media/intro-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </section>
 
@@ -1192,12 +1195,9 @@
                     <div class="demo-videos">
                         <div class="demo-video-card">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo1-zeroshot.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Zero-Shot</p>
@@ -1206,12 +1206,9 @@
                         </div>
                         <div class="demo-video-card">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo1-lora.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">LoRA</p>
@@ -1220,12 +1217,9 @@
                         </div>
                         <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo1-ours.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Robotic Steering</p>
@@ -1249,12 +1243,9 @@
                     <div class="demo-videos two-col centered">
                         <div class="demo-video-card">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo2-lora.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">LoRA</p>
@@ -1263,12 +1254,9 @@
                         </div>
                         <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo2-ours.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Robotic Steering</p>
@@ -1292,12 +1280,9 @@
                     <div class="demo-videos">
                         <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo3-lighting.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Lighting Variation</p>
@@ -1306,12 +1291,9 @@
                         </div>
                         <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo3-form.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Form Variation</p>
@@ -1320,12 +1302,9 @@
                         </div>
                         <div class="demo-video-card featured">
                             <div class="demo-video-wrapper">
-                                <div class="video-placeholder-text">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;">
-                                        <polygon points="5 3 19 12 5 21 5 3"/>
-                                    </svg>
-                                    Video
-                                </div>
+                                <video autoplay loop muted playsinline>
+                                    <source src="media/demo3-distractor.mp4" type="video/mp4">
+                                </video>
                             </div>
                             <div class="demo-video-label">
                                 <p class="demo-video-label-text">Distractor Objects</p>
