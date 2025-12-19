@@ -673,7 +673,6 @@
             overflow: hidden;
             border: 1px solid var(--border-subtle);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
         }
 
         .result-card:hover {
@@ -682,66 +681,14 @@
             box-shadow: 0 12px 32px var(--shadow-color);
         }
 
-        .result-card.expanded {
-            grid-column: 1 / -1;
-            cursor: default;
-        }
-
-        .result-image {
-            aspect-ratio: 16/10;
+        .result-chart-container {
+            padding: 1.5rem;
             background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-card) 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .result-card.expanded .result-image {
-            aspect-ratio: auto;
-            min-height: 400px;
-        }
-
-        .result-placeholder-text {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .result-expand-hint {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-            font-size: 0.75rem;
-            color: var(--accent-primary);
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .result-expand-hint svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .result-card:hover .result-expand-hint {
-            opacity: 1;
-        }
-
-        .result-card.expanded .result-expand-hint {
-            display: none;
+            min-height: 280px;
         }
 
         .result-content {
             padding: 1.5rem;
-        }
-
-        .result-card.expanded .result-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         .result-title {
@@ -754,41 +701,326 @@
             color: var(--text-muted);
         }
 
-        .result-card.expanded .result-description {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
+        /* ========== CHART STYLES ========== */
+        
+        /* Bar Chart */
+        .chart-bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
-        .result-close {
-            display: none;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-secondary);
-            cursor: pointer;
+        .chart-bar-row {
+            display: flex;
             align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chart-bar-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            width: 55px;
+            flex-shrink: 0;
+            text-align: right;
+            line-height: 1.2;
+        }
+
+        .chart-bar-track {
+            flex: 1;
+            height: 20px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 2px;
+        }
+
+        .chart-bar-fill {
+            height: 7px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-bar-fill.baseline {
+            background: var(--text-muted);
+        }
+
+        .chart-bar-fill.ours {
+            background: var(--accent-primary);
+        }
+
+        .chart-legend {
+            display: flex;
             justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .chart-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .chart-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+        }
+
+        .chart-legend-dot.baseline {
+            background: var(--text-muted);
+        }
+
+        .chart-legend-dot.ours {
+            background: var(--accent-primary);
+        }
+
+        /* Stat Cards */
+        .chart-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-stat {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chart-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .chart-stat-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Scatter Plot */
+        .chart-scatter {
+            position: relative;
+            height: 160px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .scatter-grid {
+            position: absolute;
+            inset: 20px 20px 25px 45px;
+            background: 
+                linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px),
+                linear-gradient(var(--border-subtle) 1px, transparent 1px);
+            background-size: 25% 33.33%;
+        }
+
+        .scatter-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transform: translate(-50%, 50%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .scatter-point:hover {
+            transform: translate(-50%, 50%) scale(1.4);
+            z-index: 10;
+        }
+
+        .scatter-point.baseline {
+            background: var(--text-muted);
+        }
+
+        .scatter-point.ours {
+            background: var(--accent-primary);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .scatter-axis-label {
+            position: absolute;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+        }
+
+        .scatter-axis-label.x {
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .scatter-axis-label.y {
+            left: 8px;
+            top: 50%;
+            transform: rotate(-90deg) translateX(-50%);
+            transform-origin: left center;
+            white-space: nowrap;
+        }
+
+        /* Horizontal Bar Chart */
+        .chart-h-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chart-h-bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .chart-h-bar-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .chart-h-bar-track {
+            height: 18px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            gap: 2px;
+            padding: 2px;
+            flex-direction: column;
+        }
+
+        .chart-h-bar-fill {
+            height: 6px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: var(--bg-primary);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Summary Stats Row */
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .summary-stat {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .summary-stat:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+        }
+
+        .summary-stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .summary-stat-value.green {
+            color: var(--accent-primary);
+        }
+
+        .summary-stat-value.blue {
+            color: var(--accent-blue);
+        }
+
+        .summary-stat-value.yellow {
+            color: var(--accent-warm);
+        }
+
+        .summary-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Policy Toggle */
+        .chart-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-toggle-btn {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-primary);
+            color: var(--text-muted);
+            border-radius: 4px;
+            cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .result-card.expanded .result-close {
-            display: flex;
+        .chart-toggle-btn:hover {
+            border-color: var(--text-muted);
         }
 
-        .result-close:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+        .chart-toggle-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: var(--bg-primary);
         }
 
-        .result-close svg {
-            width: 18px;
-            height: 18px;
+        /* Animation */
+        @keyframes growRight {
+            from { width: 0; }
         }
+
+        .chart-bar-fill, .chart-h-bar-fill {
+            animation: growRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: translate(-50%, 50%) scale(0); opacity: 0; }
+            to { transform: translate(-50%, 50%) scale(1); opacity: 1; }
+        }
+
+        .scatter-point {
+            animation: popIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        }
+
+        .scatter-point:nth-child(1) { animation-delay: 0.1s; }
+        .scatter-point:nth-child(2) { animation-delay: 0.2s; }
+        .scatter-point:nth-child(3) { animation-delay: 0.3s; }
+        .scatter-point:nth-child(4) { animation-delay: 0.4s; }
 
         /* Citation Section */
         .citation-section {
@@ -892,6 +1124,10 @@
 
             .results-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .results-summary {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .demo-videos {
@@ -1367,59 +1603,145 @@
                 <h2 class="section-title">Results</h2>
             </div>
             <div class="results-grid fade-in">
-                <div class="result-card" onclick="toggleResult(this)">
-                    <div class="result-image">
-                        <span class="result-placeholder-text">Result Figure 1</span>
-                        <div class="result-expand-hint">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 3 21 3 21 9"/>
-                                <polyline points="9 21 3 21 3 15"/>
-                                <line x1="21" y1="3" x2="14" y2="10"/>
-                                <line x1="3" y1="21" x2="10" y2="14"/>
-                            </svg>
-                            Click to expand
+                <!-- Chart 1: Task Performance -->
+                <div class="result-card">
+                    <div class="result-chart-container">
+                        <div class="chart-toggle">
+                            <button class="chart-toggle-btn active" onclick="setPolicy('p0', this)">π₀ Policy</button>
+                            <button class="chart-toggle-btn" onclick="setPolicy('p05', this)">π₀.₅ Policy</button>
+                        </div>
+                        <div class="chart-bar-group" id="task-chart">
+                            <!-- Bars will be populated by JS -->
+                        </div>
+                        <div class="chart-legend">
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot baseline"></span>
+                                LoRA
+                            </div>
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot ours"></span>
+                                Ours
+                            </div>
                         </div>
                     </div>
                     <div class="result-content">
                         <h4 class="result-title">Task Performance Comparison</h4>
-                        <p class="result-description">Success rates across manipulation tasks comparing Zero-Shot, LoRA, and Robotic Steering approaches.</p>
+                        <p class="result-description">Success rates across manipulation tasks comparing LoRA and Robotic Steering approaches.</p>
                     </div>
                 </div>
-                <div class="result-card" onclick="toggleResult(this)">
-                    <div class="result-image">
-                        <span class="result-placeholder-text">Result Figure 2</span>
-                        <div class="result-expand-hint">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 3 21 3 21 9"/>
-                                <polyline points="9 21 3 21 3 15"/>
-                                <line x1="21" y1="3" x2="14" y2="10"/>
-                                <line x1="3" y1="21" x2="10" y2="14"/>
-                            </svg>
-                            Click to expand
+
+                <!-- Chart 2: Efficiency -->
+                <div class="result-card">
+                    <div class="result-chart-container">
+                        <div class="chart-stats">
+                            <div class="chart-stat">
+                                <div class="chart-stat-value">22×</div>
+                                <div class="chart-stat-label">Fewer Parameters</div>
+                            </div>
+                            <div class="chart-stat">
+                                <div class="chart-stat-value">21%</div>
+                                <div class="chart-stat-label">Faster Training</div>
+                            </div>
+                        </div>
+                        <div class="chart-scatter">
+                            <div class="scatter-grid"></div>
+                            <span class="scatter-axis-label x">Training Time (min)</span>
+                            <span class="scatter-axis-label y">Params (M)</span>
+                            <!-- Points: positioned as % from left/bottom within the grid area -->
+                            <!-- LoRA π₀: 239min, 1785M -->
+                            <div class="scatter-point baseline" style="left: calc(45px + 79 * (100% - 65px) / 100); bottom: calc(25px + 85 * (100% - 45px) / 100);" title="LoRA (π₀): 239min, 1786M"></div>
+                            <!-- Ours π₀: 189min, 79M -->
+                            <div class="scatter-point ours" style="left: calc(45px + 29 * (100% - 65px) / 100); bottom: calc(25px + 15 * (100% - 45px) / 100);" title="Ours (π₀): 189min, 79M"></div>
+                            <!-- LoRA π₀.₅: 214min, 1781M -->
+                            <div class="scatter-point baseline" style="left: calc(45px + 54 * (100% - 65px) / 100); bottom: calc(25px + 82 * (100% - 45px) / 100);" title="LoRA (π₀.₅): 214min, 1781M"></div>
+                            <!-- Ours π₀.₅: 185min, 75M -->
+                            <div class="scatter-point ours" style="left: calc(45px + 25 * (100% - 65px) / 100); bottom: calc(25px + 12 * (100% - 45px) / 100);" title="Ours (π₀.₅): 185min, 75M"></div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot baseline"></span>
+                                LoRA
+                            </div>
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot ours"></span>
+                                Ours
+                            </div>
                         </div>
                     </div>
                     <div class="result-content">
-                        <h4 class="result-title">In-Domain Preservation</h4>
-                        <p class="result-description">Analysis of how well each method preserves performance on original pretraining tasks after adaptation.</p>
+                        <h4 class="result-title">Computational Efficiency</h4>
+                        <p class="result-description">Training time vs trainable parameters. Lower-left is better.</p>
                     </div>
                 </div>
-                <div class="result-card" onclick="toggleResult(this)">
-                    <div class="result-image">
-                        <span class="result-placeholder-text">Result Figure 3</span>
-                        <div class="result-expand-hint">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15 3 21 3 21 9"/>
-                                <polyline points="9 21 3 21 3 15"/>
-                                <line x1="21" y1="3" x2="14" y2="10"/>
-                                <line x1="3" y1="21" x2="10" y2="14"/>
-                            </svg>
-                            Click to expand
+
+                <!-- Chart 3: Generalization & Robustness -->
+                <div class="result-card">
+                    <div class="result-chart-container">
+                        <div class="chart-h-bars">
+                            <div class="chart-h-bar-group">
+                                <div class="chart-h-bar-label">Unseen Task (Pick Mug)</div>
+                                <div class="chart-h-bar-track">
+                                    <div class="chart-h-bar-fill baseline" style="width: 65%;">42.5%</div>
+                                    <div class="chart-h-bar-fill ours" style="width: 100%;">65%</div>
+                                </div>
+                            </div>
+                            <div class="chart-h-bar-group">
+                                <div class="chart-h-bar-label">Lighting Variation</div>
+                                <div class="chart-h-bar-track">
+                                    <div class="chart-h-bar-fill baseline" style="width: 38%;">25%</div>
+                                    <div class="chart-h-bar-fill ours" style="width: 73%;">47.5%</div>
+                                </div>
+                            </div>
+                            <div class="chart-h-bar-group">
+                                <div class="chart-h-bar-label">Form Variation</div>
+                                <div class="chart-h-bar-track">
+                                    <div class="chart-h-bar-fill baseline" style="width: 35%;">22.5%</div>
+                                    <div class="chart-h-bar-fill ours" style="width: 58%;">37.5%</div>
+                                </div>
+                            </div>
+                            <div class="chart-h-bar-group">
+                                <div class="chart-h-bar-label">Distractor Objects</div>
+                                <div class="chart-h-bar-track">
+                                    <div class="chart-h-bar-fill baseline" style="width: 46%;">30%</div>
+                                    <div class="chart-h-bar-fill ours" style="width: 62%;">40%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot baseline"></span>
+                                LoRA
+                            </div>
+                            <div class="chart-legend-item">
+                                <span class="chart-legend-dot ours"></span>
+                                Ours
+                            </div>
                         </div>
                     </div>
                     <div class="result-content">
-                        <h4 class="result-title">Head Selection Analysis</h4>
-                        <p class="result-description">Visualization of task-specific attention head distributions across different manipulation tasks.</p>
+                        <h4 class="result-title">Generalization & Robustness</h4>
+                        <p class="result-description">Performance on unseen tasks and under environmental variations.</p>
                     </div>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="results-summary fade-in">
+                <div class="summary-stat">
+                    <div class="summary-stat-value green">+12%</div>
+                    <div class="summary-stat-label">Avg. Task Improvement</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-value blue">22×</div>
+                    <div class="summary-stat-label">Parameter Reduction</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-value yellow">+53%</div>
+                    <div class="summary-stat-label">Unseen Task Gain</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="summary-stat-value green">21%</div>
+                    <div class="summary-stat-label">Training Time Saved</div>
                 </div>
             </div>
         </section>
@@ -1452,30 +1774,49 @@
     </main>
 
     <script>
-        // Result card expand/collapse
-        function toggleResult(card) {
-            const isExpanded = card.classList.contains('expanded');
-            
-            // Close all other expanded cards first
-            document.querySelectorAll('.result-card.expanded').forEach(c => {
-                c.classList.remove('expanded');
-            });
-            
-            // Toggle this card
-            if (!isExpanded) {
-                card.classList.add('expanded');
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
+        // Task performance data
+        const taskData = {
+            p0: [
+                { task: 'Place Marker', lora: 75, ours: 80 },
+                { task: 'Press Button', lora: 45, ours: 75 },
+                { task: 'Pick Cube', lora: 75, ours: 90 },
+                { task: 'Place Cube', lora: 60, ours: 85 },
+                { task: 'Push Cup', lora: 10, ours: 17.5 },
+            ],
+            p05: [
+                { task: 'Place Marker', lora: 62.5, ours: 72.5 },
+                { task: 'Press Button', lora: 90, ours: 85 },
+                { task: 'Pick Cube', lora: 70, ours: 77.5 },
+                { task: 'Place Cube', lora: 65, ours: 80 },
+                { task: 'Push Cup', lora: 20, ours: 27.5 },
+            ]
+        };
+
+        let currentPolicy = 'p0';
+
+        function renderTaskChart(policy) {
+            const data = taskData[policy];
+            const container = document.getElementById('task-chart');
+            container.innerHTML = data.map(d => `
+                <div class="chart-bar-row">
+                    <span class="chart-bar-label">${d.task}</span>
+                    <div class="chart-bar-track">
+                        <div class="chart-bar-fill baseline" style="width: ${d.lora}%;">${d.lora}%</div>
+                        <div class="chart-bar-fill ours" style="width: ${d.ours}%;">${d.ours}%</div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // Close expanded card when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.result-card')) {
-                document.querySelectorAll('.result-card.expanded').forEach(c => {
-                    c.classList.remove('expanded');
-                });
-            }
-        });
+        function setPolicy(policy, btn) {
+            currentPolicy = policy;
+            document.querySelectorAll('.chart-toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderTaskChart(policy);
+        }
+
+        // Initialize chart
+        renderTaskChart('p0');
 
         // Theme Switcher
         function setTheme(theme) {
